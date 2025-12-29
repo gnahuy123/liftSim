@@ -3,7 +3,6 @@ Session management for lift simulation.
 """
 import uuid
 from datetime import datetime, timedelta
-from typing import Union
 
 from app.core.building import BuildingController
 from app.core.multi_lift import MultiBuildingController
@@ -40,7 +39,7 @@ class SessionManager:
 
     def get_controller(
         self, session_id: str
-    ) -> Union[BuildingController, MultiBuildingController, None]:
+    ) -> BuildingController | MultiBuildingController | None:
         """Get controller for a session."""
         if session_id in self.sessions:
             self.sessions[session_id]["last_activity"] = datetime.now()

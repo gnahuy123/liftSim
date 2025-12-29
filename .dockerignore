@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+frontend-react/node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Tests
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Dev files
+*.md
+!README.md
+.pre-commit-config.yaml
+requirements-dev.txt
+
+# Frontend source (we use build output)
+frontend-react/src/
+frontend-react/public/
+frontend-react/*.json
+frontend-react/*.js
+frontend-react/*.ts
+frontend-react/.env*
+
+# Old frontend
+frontend/

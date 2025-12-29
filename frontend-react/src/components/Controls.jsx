@@ -29,12 +29,6 @@ export default function Controls({
 
     const maxFloors = config?.max_floors ?? 10;
 
-    // Reset counter on session change
-    useEffect(() => {
-        passengerNumRef.current = 1;
-        setPassengersAdded(0);
-    }, [sessionId]);
-
     const generatePassengerId = () => {
         const id = 'P' + String(passengerNumRef.current).padStart(3, '0');
         passengerNumRef.current += 1;
@@ -103,6 +97,8 @@ export default function Controls({
 
     const handleReconnect = () => {
         setAutoMode(false);
+        passengerNumRef.current = 1;
+        setPassengersAdded(0);
         onReconnect(selectedAlgo1, selectedAlgo2);
     };
 

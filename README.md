@@ -83,6 +83,19 @@ uvicorn app.main:app
 
 Open http://localhost:8000
 
+### Docker
+
+```bash
+# Build and run with Docker Compose
+docker compose up -d
+
+# Or build manually
+docker build -t lift-simulation .
+docker run -p 8000:8000 lift-simulation
+```
+
+Open http://localhost:8000
+
 ## Testing
 
 ### Backend
