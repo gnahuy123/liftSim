@@ -1,12 +1,26 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from app.api import endpoints, websocket
 from app.core.sessions import session_manager
 import asyncio
 
 app = FastAPI()
 
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 app.include_router(endpoints.router, prefix="/api")
 app.add_websocket_route("/ws/{session_id}", websocket.websocket_endpoint)
+
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
 @app.on_event("startup")
 async def startup_event():

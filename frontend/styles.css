@@ -1,0 +1,361 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.connection-status {
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.connected {
+    background: #d4edda;
+    color: #155724;
+}
+
+.disconnected {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.lift-visual {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.building-container {
+    position: relative;
+    margin-top: 20px;
+    padding-left: 100px;
+    /* Space for lift shaft */
+}
+
+.lift-shaft-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    background: #e9ecef;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.lift-car {
+    position: absolute;
+    left: 5px;
+    width: 70px;
+    height: 60px;
+    /* Fixed height for lift */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    flex-direction: column;
+    transition: bottom 1s ease-in-out;
+    /* Smooth transition */
+    z-index: 20;
+    cursor: pointer;
+}
+
+/* Tooltip container */
+.lift-car .tooltip {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.lift-car:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.floor {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    /* Match lift height + gap */
+    padding: 0 15px;
+    background: white;
+    border-bottom: 1px solid #dee2e6;
+    position: relative;
+}
+
+.floor-number {
+    font-weight: bold;
+    width: 40px;
+    color: #495057;
+}
+
+.waiting-area,
+.exiting-area {
+    display: flex;
+    gap: 5px;
+    padding: 0 10px;
+}
+
+.passenger-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: white;
+    font-weight: bold;
+}
+
+.passenger-badge.pickup {
+    background-color: #17a2b8;
+    /* Info Cyan */
+}
+
+.passenger-badge.dropoff {
+    background-color: #28a745;
+    /* Success Green */
+}
+
+.controls {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #495057;
+    font-weight: 600;
+}
+
+input,
+button {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.info-panel {
+    background: #e7f3ff;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #b8daff;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #004085;
+}
+
+.info-value {
+    color: #004085;
+}
+
+.logs {
+    margin-top: 30px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.logs h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.log-entry {
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    background: white;
+    border-left: 3px solid #667eea;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #495057;
+}
+
+
+/* Table Styles */
+.passenger-table-container {
+    margin-top: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#passengerTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#passengerTable th,
+#passengerTable td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+#passengerTable th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+}
+
+#passengerTable tr:hover {
+    background-color: #f8f9fa;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.status-waiting {
+    background-color: #ffc107;
+    color: #856404;
+}
+
+.status-moving {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.status-arrived {
+    background-color: #28a745;
+    color: white;
+}
+
+.log-time {
+    color: #6c757d;
+    font-size: 0.85em;
+}
+
+@media (max-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Speed Controls */
+.btn-group {
+    display: flex;
+    gap: 5px;
+}
+
+.speed-btn {
+    flex: 1;
+    margin-top: 0;
+    /* Override generic button top margin */
+    padding: 8px;
+    background: #e9ecef;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    font-size: 0.9em;
+}
+
+.speed-btn:hover {
+    background: #dee2e6;
+    transform: none;
+    /* simpler hover for these toggles */
+}
+
+.speed-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}

@@ -32,20 +32,31 @@ async def get_state(session_id: str):
     try:
         state = controller.get_state()
         
-        # Transform stops from tuples to passenger ID lists
+        # Transform stops from tuples to StopInfo objects
         transformed_stops = {}
         for level, actions in state["pending_stops"].items():
-            passenger_ids = []
+            stop_infos = []
             for action_tuple in actions:
-                if len(action_tuple) >= 2:  # Has at least action and passenger_id
-                    passenger_ids.append(action_tuple[1])  # Extract passenger_id
-            transformed_stops[level] = passenger_ids
+                # Expected tuple: (action_type, passenger_id, [to_level])
+                action_type = action_tuple[0]
+                passenger_id = action_tuple[1]
+                to_level = action_tuple[2] if len(action_tuple) > 2 else None
+                
+                stop_infos.append({
+                    "passenger_id": passenger_id,
+                    "type": action_type,
+                    "to_level": to_level
+                })
+            transformed_stops[level] = stop_infos
         
         return LiftState(
             current_level=state["level"],
             direction=state["direction"],
             passengers=state["passengers"],
-            stops=transformed_stops
+            stops=transformed_stops,
+            active_passengers=state.get("active_passengers", []),
+            global_tick=state.get("global_tick", 0),
+            stats=state.get("stats")
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get state: {str(e)}")

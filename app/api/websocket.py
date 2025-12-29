@@ -25,7 +25,10 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
-async def websocket_endpoint(websocket: WebSocket, session_id: str):
+async def websocket_endpoint(websocket: WebSocket):
+    # Extract session_id from the websocket path params (used by add_websocket_route)
+    session_id = websocket.path_params.get('session_id')
+
     # Validate session
     controller = session_manager.get_controller(session_id)
     if not controller:
