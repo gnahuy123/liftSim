@@ -154,8 +154,20 @@ class LiftController:
 
     def _update_direction(self) -> None:
         """Update direction using the algorithm."""
+        # Filter stops to only include fulfillable actions:
+        # 1. Any pickup
+        # 2. Dropoff for someone already in the lift
+        fulfillable_stops = {}
+        for level, actions in self.stops.items():
+            valid_actions = [
+                a for a in actions
+                if a[0] == "pickup" or (a[0] == "dropoff" and a[1] in self.passengers)
+            ]
+            if valid_actions:
+                fulfillable_stops[level] = valid_actions
+
         self.direction = self.algorithm.pick_next_direction(
-            self.current_level, self.direction, self.stops
+            self.current_level, self.direction, fulfillable_stops
         )
 
     def _move_lift(self) -> None:
