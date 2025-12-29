@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api import endpoints, websocket
 from app.core.sessions import session_manager
 import asyncio
+import os
 
 app = FastAPI()
 
@@ -20,7 +21,10 @@ app.add_middleware(
 app.include_router(endpoints.router, prefix="/api")
 app.add_websocket_route("/ws/{session_id}", websocket.websocket_endpoint)
 
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+# Serve React frontend (built) or fallback message
+frontend_path = "frontend-react/dist"
+if os.path.exists(frontend_path):
+    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 
 @app.on_event("startup")
 async def startup_event():

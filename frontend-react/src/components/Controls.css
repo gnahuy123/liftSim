@@ -1,0 +1,135 @@
+.controls {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 240px;
+}
+
+.control-group {
+    margin-bottom: 16px;
+}
+
+.control-group label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.control-group select,
+.control-group input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fff;
+    color: #333;
+}
+
+.control-group select:focus,
+.control-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.input-row input {
+    width: 60px;
+}
+
+.input-row span {
+    color: #999;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 20px 0;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn:hover:not(:disabled) {
+    background: #f5f5f5;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    width: 100%;
+}
+
+.btn-active {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fff;
+}
+
+.btn-active:hover:not(:disabled) {
+    background: #b91c1c;
+}
+
+.speed-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-speed {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: #fff;
+    color: #666;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-speed:hover {
+    background: #f5f5f5;
+}
+
+.btn-speed.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+    margin-top: 12px;
+}

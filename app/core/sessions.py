@@ -1,24 +1,46 @@
 import uuid
 from datetime import datetime, timedelta
 from app.core.lift import LiftController
+from app.core.building import BuildingController
+from app.core.multi_lift import MultiBuildingController
+
 
 class SessionManager:
     def __init__(self):
         self.sessions = {}
         self.session_timeout = timedelta(minutes=30)
 
-    def create_session(self) -> str:
+    def create_session(self, algorithm_name: str = "scan") -> str:
+        """Create a single-building session with 2 lifts."""
         session_id = str(uuid.uuid4())
         self.sessions[session_id] = {
-            "controller": LiftController(),
+            "type": "single",
+            "controller": BuildingController(algorithm_name=algorithm_name),
+            "last_activity": datetime.now()
+        }
+        return session_id
+    
+    def create_comparison_session(self, algorithm1: str = "scan", algorithm2: str = "scan") -> str:
+        """Create a comparison session with 2 buildings, each having 2 lifts."""
+        session_id = str(uuid.uuid4())
+        self.sessions[session_id] = {
+            "type": "comparison",
+            "controller": MultiBuildingController(algorithm1=algorithm1, algorithm2=algorithm2),
             "last_activity": datetime.now()
         }
         return session_id
 
-    def get_controller(self, session_id: str) -> LiftController:
+    def get_controller(self, session_id: str):
+        """Get controller for a session."""
         if session_id in self.sessions:
             self.sessions[session_id]["last_activity"] = datetime.now()
             return self.sessions[session_id]["controller"]
+        return None
+    
+    def get_session_type(self, session_id: str) -> str:
+        """Get the type of session (single or comparison)."""
+        if session_id in self.sessions:
+            return self.sessions[session_id].get("type", "single")
         return None
 
     def cleanup_sessions(self):
@@ -29,6 +51,7 @@ class SessionManager:
         
         for session_id in expired:
             del self.sessions[session_id]
+
 
 # Global session manager instance
 session_manager = SessionManager()

@@ -1,6 +1,13 @@
 from abc import ABC, abstractmethod
+from typing import Dict, List, Type
+
 
 class LiftAlgorithm(ABC):
+    """Base class for lift scheduling algorithms."""
+    
+    name: str = "base"
+    description: str = "Base algorithm"
+    
     @abstractmethod
     def pick_next_direction(self, current_level: int, current_direction: str, stops: dict) -> str:
         """
@@ -9,29 +16,23 @@ class LiftAlgorithm(ABC):
         """
         pass
 
+
 class ScanAlgorithm(LiftAlgorithm):
     """
     Standard Elevator Algorithm (SCAN/LOOK).
     Continues in current direction until no more requests, then switches.
+    This is the baseline algorithm used in most real elevators.
     """
+    name = "scan"
+    description = "SCAN/LOOK - Continues in direction until no more requests"
+    
     def pick_next_direction(self, current_level: int, current_direction: str, stops: dict) -> str:
         if not stops:
             return "idle"
         
         if current_direction == "idle":
-            # Simple heuristic: go to nearest request
-            # Or just standard min/max logic
             min_stop = min(stops.keys())
             max_stop = max(stops.keys())
-            
-            # If we are above the lowest stop, go down to pick/drop it? 
-            # Actually, standard SCAN: if any request is above, go up?
-            # Let's stick to the previous logic which was robust enough:
-            # Go to the nearest end?
-            
-            # Previous logic:
-            # next_level = min(self.stops.keys()) if self.current_level > min(self.stops.keys()) else max(self.stops.keys())
-            # self.direction = "up" if self.current_level < next_level else "down"
             
             if current_level > min_stop:
                 return "down"
@@ -39,8 +40,6 @@ class ScanAlgorithm(LiftAlgorithm):
                 return "up"
 
         elif current_direction == "up":
-            # Continue up if there are stops above or at current
-            # But strictly, if we are at max, we switch.
             if current_level >= max(stops.keys()):
                 return "down"
             return "up"
@@ -51,3 +50,27 @@ class ScanAlgorithm(LiftAlgorithm):
             return "down"
             
         return "idle"
+
+
+# Algorithm Registry - maps name to class
+# New algorithms can be added here
+ALGORITHM_REGISTRY: Dict[str, Type[LiftAlgorithm]] = {
+    "scan": ScanAlgorithm,
+}
+
+
+def get_available_algorithms() -> List[dict]:
+    """Returns list of available algorithms with their metadata."""
+    return [
+        {
+            "name": algo_class.name,
+            "description": algo_class.description
+        }
+        for algo_class in ALGORITHM_REGISTRY.values()
+    ]
+
+
+def get_algorithm(name: str) -> LiftAlgorithm:
+    """Get an algorithm instance by name. Defaults to ScanAlgorithm if not found."""
+    algo_class = ALGORITHM_REGISTRY.get(name, ScanAlgorithm)
+    return algo_class()

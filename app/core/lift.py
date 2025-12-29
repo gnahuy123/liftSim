@@ -1,13 +1,14 @@
-from app.core.algorithms import ScanAlgorithm, LiftAlgorithm
+from app.core.algorithms import ScanAlgorithm, LiftAlgorithm, get_algorithm
 
 class LiftController:
-    def __init__(self, algorithm: LiftAlgorithm = None):
+    def __init__(self, algorithm_name: str = "scan"):
         self.current_level = 0
         self.direction = "idle"
         self.passengers = [] # IDs inside lift
         self.stops = {}
         self.history = []
-        self.algorithm = algorithm or ScanAlgorithm()
+        self.algorithm = get_algorithm(algorithm_name)
+        self.algorithm_name = algorithm_name
         
         # Track all active requests: {pid: {"id": pid, "from": f, "to": t, "status": "WAITING"}}
         self.active_requests = {}
