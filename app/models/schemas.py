@@ -9,10 +9,12 @@ class PassengerRequest(BaseModel):
 
 class CreateSessionRequest(BaseModel):
     algorithm: str | None = "scan"
+    max_floors: int | None = 10
 
 class CreateComparisonRequest(BaseModel):
     algorithm1: str | None = "scan"
     algorithm2: str | None = "scan"
+    max_floors: int | None = 10
 
 class StopInfo(BaseModel):
     passenger_id: str
@@ -33,17 +35,17 @@ class LiftStats(BaseModel):
     avg_ride: float
     avg_total: float
 
-class LiftState(BaseModel):
-    current_level: int
-    direction: str  # "up", "down", or "idle"
-    passengers: list[str]  # List of passenger IDs inside
-    stops: dict[int, list[StopInfo]]  # Levels with passengers to pick up/drop off
+class BuildingState(BaseModel):
+    algorithm: str
+    lift_a: dict  # Simplified for now, or could use LiftState if we had one
+    lift_b: dict
     active_passengers: list[PassengerStatus]
     global_tick: int
-    stats: LiftStats
-    algorithm: str | None = None  # For comparison view
+    stats: dict
+    max_floors: int
 
 class ComparisonState(BaseModel):
-    lift1: LiftState
-    lift2: LiftState
+    type: str = "comparison"
+    building1: BuildingState
+    building2: BuildingState
     global_tick: int

@@ -100,6 +100,45 @@ hr {
     background: #b91c1c;
 }
 
+.settings-section {
+    margin-bottom: 20px;
+}
+
+.settings-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: none;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+}
+
+input[type="range"] {
+    margin: 8px 0;
+}
+
+.auto-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.speed-control label {
+    margin-bottom: 4px;
+}
+
 .speed-buttons {
     display: flex;
     gap: 4px;
@@ -128,8 +167,12 @@ hr {
 
 .stats-row {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 4px;
     font-size: 12px;
     color: #666;
     margin-top: 12px;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 4px;
 }

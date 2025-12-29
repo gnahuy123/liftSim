@@ -8,8 +8,11 @@ from app.core.config import DEFAULT_ALGORITHM, MAX_FLOORS, MIN_FLOOR
 class LiftController:
     """Single lift controller with encapsulated state access."""
 
-    def __init__(self, algorithm_name: str = DEFAULT_ALGORITHM) -> None:
+    def __init__(
+        self, algorithm_name: str = DEFAULT_ALGORITHM, max_floors: int = MAX_FLOORS
+    ) -> None:
         self.current_level: int = MIN_FLOOR
+        self.max_floors: int = max_floors
         self.direction: str = "idle"
         self.passengers: list[str] = []
         self.stops: dict[int, list[tuple]] = {}

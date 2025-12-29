@@ -13,9 +13,15 @@ class MultiBuildingController:
     Same passenger requests sent to both buildings for fair comparison.
     """
 
-    def __init__(self, algorithm1: str = "scan", algorithm2: str = "scan") -> None:
-        self.building1 = BuildingController(algorithm_name=algorithm1)
-        self.building2 = BuildingController(algorithm_name=algorithm2)
+    def __init__(
+        self,
+        algorithm1: str = "scan",
+        algorithm2: str = "scan",
+        max_floors: int = 10,
+    ) -> None:
+        self.building1 = BuildingController(algorithm_name=algorithm1, max_floors=max_floors)
+        self.building2 = BuildingController(algorithm_name=algorithm2, max_floors=max_floors)
+        self.max_floors = max_floors
         self.global_tick: int = 0
 
     def add_request(self, passenger_id: str, from_level: int, to_level: int) -> None:
@@ -36,6 +42,7 @@ class MultiBuildingController:
         state2 = self.building2.get_state()
 
         return {
+            "type": "comparison",
             "building1": state1,
             "building2": state2,
             "global_tick": self.global_tick,

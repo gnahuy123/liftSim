@@ -1,16 +1,15 @@
 import { calculateLiftPosition } from '../utils/liftPosition';
 import './Building.css';
 
-const MAX_FLOORS = 10;
-
 export default function Building({ building, label }) {
     if (!building) return <div className="building-placeholder">Loading...</div>;
 
     const liftA = building.lift_a || {};
     const liftB = building.lift_b || {};
+    const maxFloors = building.max_floors ?? 10;
 
     const floors = [];
-    for (let i = MAX_FLOORS; i >= 0; i--) {
+    for (let i = maxFloors; i >= 0; i--) {
         const stopsA = liftA.stops?.[i] || [];
         const stopsB = liftB.stops?.[i] || [];
 

@@ -10,20 +10,20 @@ export async function getAlgorithms() {
     return response.json();
 }
 
-export async function createSession(algorithm = 'scan') {
+export async function createSession(algorithm = 'scan', max_floors = 10) {
     const response = await fetch(`${API_URL}/api/create-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ algorithm })
+        body: JSON.stringify({ algorithm, max_floors })
     });
     return response.json();
 }
 
-export async function createComparisonSession(algorithm1 = 'scan', algorithm2 = 'scan') {
+export async function createComparisonSession(algo1 = 'scan', algo2 = 'scan', max_floors = 10) {
     const response = await fetch(`${API_URL}/api/create-comparison`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ algorithm1, algorithm2 })
+        body: JSON.stringify({ algorithm1: algo1, algorithm2: algo2, max_floors })
     });
     return response.json();
 }

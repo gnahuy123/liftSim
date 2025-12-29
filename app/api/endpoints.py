@@ -31,8 +31,14 @@ async def list_algorithms() -> dict:
 async def create_session(request: CreateSessionRequest | None = None) -> dict:
     """Create a single-building session with 2 lifts."""
     algorithm_name = request.algorithm if request and request.algorithm else DEFAULT_ALGORITHM
-    session_id = session_manager.create_session(algorithm_name=algorithm_name)
-    return {"session_id": session_id, "algorithm": algorithm_name, "type": "single"}
+    max_floors = request.max_floors if request and request.max_floors else 10
+    session_id = session_manager.create_session(algorithm_name=algorithm_name, max_floors=max_floors)
+    return {
+        "session_id": session_id,
+        "algorithm": algorithm_name,
+        "max_floors": max_floors,
+        "type": "single",
+    }
 
 
 @router.post("/create-comparison")
@@ -40,11 +46,15 @@ async def create_comparison(request: CreateComparisonRequest | None = None) -> d
     """Create a comparison session with 2 buildings, each with 2 lifts."""
     algo1 = request.algorithm1 if request and request.algorithm1 else DEFAULT_ALGORITHM
     algo2 = request.algorithm2 if request and request.algorithm2 else DEFAULT_ALGORITHM
-    session_id = session_manager.create_comparison_session(algorithm1=algo1, algorithm2=algo2)
+    max_floors = request.max_floors if request and request.max_floors else 10
+    session_id = session_manager.create_comparison_session(
+        algorithm1=algo1, algorithm2=algo2, max_floors=max_floors
+    )
     return {
         "session_id": session_id,
         "algorithm1": algo1,
         "algorithm2": algo2,
+        "max_floors": max_floors,
         "type": "comparison",
     }
 

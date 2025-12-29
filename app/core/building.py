@@ -9,10 +9,13 @@ from app.core.lift import LiftController
 class BuildingController:
     """A building with 2 lifts working together to service passengers."""
 
-    def __init__(self, algorithm_name: str = DEFAULT_ALGORITHM) -> None:
-        self.lift_a = LiftController(algorithm_name=algorithm_name)
-        self.lift_b = LiftController(algorithm_name=algorithm_name)
+    def __init__(
+        self, algorithm_name: str = DEFAULT_ALGORITHM, max_floors: int = 10
+    ) -> None:
+        self.lift_a = LiftController(algorithm_name=algorithm_name, max_floors=max_floors)
+        self.lift_b = LiftController(algorithm_name=algorithm_name, max_floors=max_floors)
         self.algorithm_name: str = algorithm_name
+        self.max_floors: int = max_floors
         self.global_tick: int = 0
         self.total_passengers: int = 0
 
@@ -91,4 +94,5 @@ class BuildingController:
                 "avg_total": avg_total,
                 "completed": total_completed,
             },
+            "max_floors": self.max_floors,
         }

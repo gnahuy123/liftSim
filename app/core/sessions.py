@@ -15,24 +15,26 @@ class SessionManager:
         self.sessions: dict[str, dict] = {}
         self.session_timeout: timedelta = timedelta(minutes=30)
 
-    def create_session(self, algorithm_name: str = "scan") -> str:
+    def create_session(self, algorithm_name: str = "scan", max_floors: int = 10) -> str:
         """Create a single-building session with 2 lifts."""
         session_id = str(uuid.uuid4())
         self.sessions[session_id] = {
             "type": "single",
-            "controller": BuildingController(algorithm_name=algorithm_name),
+            "controller": BuildingController(algorithm_name=algorithm_name, max_floors=max_floors),
             "last_activity": datetime.now(),
         }
         return session_id
 
     def create_comparison_session(
-        self, algorithm1: str = "scan", algorithm2: str = "scan"
+        self, algorithm1: str = "scan", algorithm2: str = "scan", max_floors: int = 10
     ) -> str:
         """Create a comparison session with 2 buildings, each having 2 lifts."""
         session_id = str(uuid.uuid4())
         self.sessions[session_id] = {
             "type": "comparison",
-            "controller": MultiBuildingController(algorithm1=algorithm1, algorithm2=algorithm2),
+            "controller": MultiBuildingController(
+                algorithm1=algorithm1, algorithm2=algorithm2, max_floors=max_floors
+            ),
             "last_activity": datetime.now(),
         }
         return session_id

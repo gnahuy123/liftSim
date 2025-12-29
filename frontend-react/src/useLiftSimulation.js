@@ -51,13 +51,13 @@ export function useLiftSimulation() {
         }
     }, []);
 
-    const connect = useCallback(async (algo1 = 'scan', algo2 = 'scan') => {
+    const connect = useCallback(async (algo1 = 'scan', algo2 = 'scan', max_floors = 10) => {
         try {
             if (wsRef.current) {
                 wsRef.current.close();
             }
 
-            const data = await createComparisonSession(algo1, algo2);
+            const data = await createComparisonSession(algo1, algo2, max_floors);
             setSessionId(data.session_id);
             sessionIdRef.current = data.session_id;
             setAlgorithm1(algo1);
