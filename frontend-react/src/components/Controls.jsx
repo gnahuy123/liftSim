@@ -28,7 +28,6 @@ export default function Controls({
     const autoModeRef = useRef(null);
     const autoMoveRef = useRef(null);
 
-    const maxFloors = config?.max_floors ?? 10;
 
     const generatePassengerId = () => {
         const id = 'P' + String(passengerNumRef.current).padStart(3, '0');

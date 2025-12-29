@@ -4,7 +4,7 @@ API endpoints for lift simulation.
 from fastapi import APIRouter, HTTPException
 
 from app.core.algorithms import get_available_algorithms
-from app.core.config import DEFAULT_ALGORITHM, MAX_FLOORS, MIN_FLOOR
+from app.core.config import DEFAULT_ALGORITHM, MIN_FLOOR
 from app.core.sessions import session_manager
 from app.models.schemas import CreateComparisonRequest, CreateSessionRequest, PassengerRequest
 
