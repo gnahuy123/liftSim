@@ -119,14 +119,11 @@ mypy app/
 ```bash
 cd frontend-react
 
-# Run tests
-npm test
-
-# Run tests once
-npm run test:run
-
 # Format code
 npm run format
+
+# Lint
+npm run lint
 ```
 
 ## Pre-commit Hooks
