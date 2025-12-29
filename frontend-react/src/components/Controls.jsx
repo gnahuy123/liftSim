@@ -2,18 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { addPassenger, moveLift } from '../api';
 import './Controls.css';
 
-let nextPassengerNum = 1;
-
-function generatePassengerId() {
-    const id = 'P' + String(nextPassengerNum).padStart(3, '0');
-    nextPassengerNum++;
-    return id;
-}
-
 export default function Controls({
     sessionId,
     isConnected,
     algorithms,
+    config,
     algorithm1,
     algorithm2,
     onReconnect,
@@ -28,15 +21,25 @@ export default function Controls({
     const [autoMode, setAutoMode] = useState(false);
     const [speed, setSpeed] = useState(1);
     const [passengersAdded, setPassengersAdded] = useState(0);
+
+    // Use useRef for passenger counter (React-safe)
+    const passengerNumRef = useRef(1);
     const autoModeRef = useRef(null);
     const autoMoveRef = useRef(null);
 
-    const MAX_FLOORS = 10;
+    const maxFloors = config?.max_floors ?? 10;
 
+    // Reset counter on session change
     useEffect(() => {
-        nextPassengerNum = 1;
+        passengerNumRef.current = 1;
         setPassengersAdded(0);
     }, [sessionId]);
+
+    const generatePassengerId = () => {
+        const id = 'P' + String(passengerNumRef.current).padStart(3, '0');
+        passengerNumRef.current += 1;
+        return id;
+    };
 
     useEffect(() => {
         if (autoMode && sessionId) {
@@ -44,9 +47,9 @@ export default function Controls({
             const moveRate = 1000 / speed;
 
             autoModeRef.current = setInterval(async () => {
-                const from = Math.floor(Math.random() * (MAX_FLOORS + 1));
-                let to = Math.floor(Math.random() * (MAX_FLOORS + 1));
-                if (to === from) to = (to + 1) % (MAX_FLOORS + 1);
+                const from = Math.floor(Math.random() * (maxFloors + 1));
+                let to = Math.floor(Math.random() * (maxFloors + 1));
+                if (to === from) to = (to + 1) % (maxFloors + 1);
                 const pid = generatePassengerId();
 
                 try {
@@ -78,13 +81,13 @@ export default function Controls({
             if (autoModeRef.current) clearInterval(autoModeRef.current);
             if (autoMoveRef.current) clearInterval(autoMoveRef.current);
         };
-    }, [autoMode, speed, sessionId, addLog, onRefreshState]);
+    }, [autoMode, speed, sessionId, addLog, onRefreshState, maxFloors]);
 
     const handleAddPassenger = async () => {
         if (!fromLevel || !toLevel) return;
         const from = parseInt(fromLevel);
         const to = parseInt(toLevel);
-        if (from === to || from < 0 || from > MAX_FLOORS || to < 0 || to > MAX_FLOORS) return;
+        if (from === to || from < 0 || from > maxFloors || to < 0 || to > maxFloors) return;
 
         const pid = generatePassengerId();
         try {
@@ -106,7 +109,7 @@ export default function Controls({
     return (
         <div className="controls">
             <div className="control-group">
-                <label>Lift 1 Algorithm</label>
+                <label>Building 1 Algorithm</label>
                 <select value={selectedAlgo1} onChange={e => setSelectedAlgo1(e.target.value)}>
                     {algorithms.map(a => (
                         <option key={a.name} value={a.name}>{a.name.toUpperCase()}</option>
@@ -115,7 +118,7 @@ export default function Controls({
             </div>
 
             <div className="control-group">
-                <label>Lift 2 Algorithm</label>
+                <label>Building 2 Algorithm</label>
                 <select value={selectedAlgo2} onChange={e => setSelectedAlgo2(e.target.value)}>
                     {algorithms.map(a => (
                         <option key={a.name} value={a.name}>{a.name.toUpperCase()}</option>
@@ -135,7 +138,8 @@ export default function Controls({
                     <input
                         type="number"
                         placeholder="From"
-                        min="0" max="10"
+                        min="0"
+                        max={maxFloors}
                         value={fromLevel}
                         onChange={e => setFromLevel(e.target.value)}
                     />
@@ -143,7 +147,8 @@ export default function Controls({
                     <input
                         type="number"
                         placeholder="To"
-                        min="0" max="10"
+                        min="0"
+                        max={maxFloors}
                         value={toLevel}
                         onChange={e => setToLevel(e.target.value)}
                     />

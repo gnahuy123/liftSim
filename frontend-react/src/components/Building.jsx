@@ -1,3 +1,4 @@
+import { calculateLiftPosition } from '../utils/liftPosition';
 import './Building.css';
 
 const MAX_FLOORS = 10;
@@ -32,9 +33,9 @@ export default function Building({ building, label }) {
         );
     }
 
-    const floorHeight = 36;
-    const liftABottom = ((liftA.level || 0) * floorHeight) + 2;
-    const liftBBottom = ((liftB.level || 0) * floorHeight) + 2;
+    // Use utility function for position calculation
+    const liftABottom = calculateLiftPosition(liftA.level || 0);
+    const liftBBottom = calculateLiftPosition(liftB.level || 0);
 
     return (
         <div className="building">

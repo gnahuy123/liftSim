@@ -1,4 +1,9 @@
-const API_URL = 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || '';
+
+export async function getConfig() {
+    const response = await fetch(`${API_URL}/api/config`);
+    return response.json();
+}
 
 export async function getAlgorithms() {
     const response = await fetch(`${API_URL}/api/algorithms`);
@@ -43,7 +48,8 @@ export async function moveLift(sessionId) {
 }
 
 export function createWebSocket(sessionId, onMessage, onOpen, onClose, onError) {
-    const ws = new WebSocket(`ws://localhost:8000/ws/${sessionId}`);
+    const wsUrl = API_URL.replace(/^http/, 'ws') || `ws://${window.location.host}`;
+    const ws = new WebSocket(`${wsUrl}/ws/${sessionId}`);
     ws.onmessage = (event) => onMessage(JSON.parse(event.data));
     ws.onopen = onOpen;
     ws.onclose = onClose;

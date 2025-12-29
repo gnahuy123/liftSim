@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { createComparisonSession, getState, getAlgorithms, createWebSocket } from './api';
+import { createComparisonSession, getState, getAlgorithms, getConfig, createWebSocket } from './api';
 
 export function useLiftSimulation() {
     const [sessionId, setSessionId] = useState(null);
     const [state, setState] = useState(null);
     const [algorithms, setAlgorithms] = useState([]);
+    const [config, setConfig] = useState({ max_floors: 10, min_floor: 0 });
     const [algorithm1, setAlgorithm1] = useState('scan');
     const [algorithm2, setAlgorithm2] = useState('scan');
     const [isConnected, setIsConnected] = useState(false);
@@ -17,11 +18,15 @@ export function useLiftSimulation() {
         setLogs(prev => [{ time, message }, ...prev.slice(0, 19)]);
     }, []);
 
-    // Fetch algorithms on mount
+    // Fetch config and algorithms on mount
     useEffect(() => {
-        getAlgorithms().then(data => {
-            setAlgorithms(data.algorithms || []);
-        }).catch(err => addLog(`Failed to fetch algorithms: ${err.message}`));
+        getConfig()
+            .then(data => setConfig(data))
+            .catch(err => console.error('Failed to fetch config:', err));
+
+        getAlgorithms()
+            .then(data => setAlgorithms(data.algorithms || []))
+            .catch(err => addLog(`Failed to fetch algorithms: ${err.message}`));
     }, [addLog]);
 
     useEffect(() => {
@@ -87,6 +92,7 @@ export function useLiftSimulation() {
         sessionId,
         state,
         algorithms,
+        config,
         algorithm1,
         algorithm2,
         isConnected,
