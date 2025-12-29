@@ -15,15 +15,14 @@ router = APIRouter()
 async def get_config() -> dict:
     """Get simulation configuration."""
     return {
-        "max_floors": MAX_FLOORS,
-        "min_floor": MIN_FLOOR,
-        "default_algorithm": DEFAULT_ALGORITHM,
+        "max_floors": 20,  # Default max floors for UI slider
+        "min_floor": MIN_FLOOR
     }
 
 
 @router.get("/algorithms")
-async def list_algorithms() -> dict:
-    """Returns list of available lift algorithms."""
+async def get_algorithms() -> dict:
+    """Get available algorithms."""
     return {"algorithms": get_available_algorithms()}
 
 
@@ -47,6 +46,7 @@ async def create_comparison(request: CreateComparisonRequest | None = None) -> d
     algo1 = request.algorithm1 if request and request.algorithm1 else DEFAULT_ALGORITHM
     algo2 = request.algorithm2 if request and request.algorithm2 else DEFAULT_ALGORITHM
     max_floors = request.max_floors if request and request.max_floors else 10
+    print(f"DEBUG: create_comparison max_floors={max_floors}")
     session_id = session_manager.create_comparison_session(
         algorithm1=algo1, algorithm2=algo2, max_floors=max_floors
     )
@@ -108,6 +108,7 @@ def transform_building_state(state: dict) -> dict:
         "active_passengers": state.get("active_passengers", []),
         "global_tick": state.get("global_tick", 0),
         "stats": state.get("stats", {"avg_wait": 0, "avg_ride": 0, "avg_total": 0, "completed": 0}),
+        "max_floors": state.get("max_floors", 10),
     }
 
 

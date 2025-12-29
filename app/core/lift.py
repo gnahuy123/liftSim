@@ -172,7 +172,7 @@ class LiftController:
 
     def _move_lift(self) -> None:
         """Move the lift based on current direction."""
-        if self.direction == "up" and self.current_level < MAX_FLOORS:
+        if self.direction == "up" and self.current_level < self.max_floors:
             self.current_level += 1
         elif self.direction == "down" and self.current_level > MIN_FLOOR:
             self.current_level -= 1

@@ -84,8 +84,8 @@ export function useLiftSimulation() {
         }
     }, [addLog, refreshState]);
 
-    const reconnect = useCallback((algo1, algo2) => {
-        connect(algo1, algo2);
+    const reconnect = useCallback((algo1, algo2, max_floors) => {
+        connect(algo1, algo2, max_floors);
     }, [connect]);
 
     return {

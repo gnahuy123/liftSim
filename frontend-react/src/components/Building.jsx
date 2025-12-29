@@ -8,22 +8,36 @@ export default function Building({ building, label }) {
     const liftB = building.lift_b || {};
     const maxFloors = building.max_floors ?? 10;
 
+    // Dynamic height calculation
+    const floorHeight = Math.max(12, Math.min(40, 500 / (maxFloors + 1)));
+    const liftHeight = floorHeight - 4;
+    const fontSize = Math.max(8, Math.min(12, floorHeight * 0.4));
+    const badgeFontSize = Math.max(6, Math.min(10, floorHeight * 0.35));
+
     const floors = [];
     for (let i = maxFloors; i >= 0; i--) {
         const stopsA = liftA.stops?.[i] || [];
         const stopsB = liftB.stops?.[i] || [];
 
         floors.push(
-            <div key={i} className="floor">
+            <div key={i} className="floor" style={{ height: `${floorHeight}px`, fontSize: `${fontSize}px` }}>
                 <div className="floor-number">{i}</div>
                 <div className="floor-content">
                     {stopsA.map(s => (
-                        <span key={s.passenger_id} className={`badge ${s.type === 'pickup' ? 'badge-a' : 'badge-exit'}`}>
+                        <span
+                            key={s.passenger_id}
+                            className={`badge ${s.type === 'pickup' ? 'badge-a' : 'badge-exit'}`}
+                            style={{ fontSize: `${badgeFontSize}px`, padding: floorHeight < 20 ? '0 2px' : '2px 5px' }}
+                        >
                             {s.passenger_id.replace(/_[AB]$/, '')}
                         </span>
                     ))}
                     {stopsB.map(s => (
-                        <span key={s.passenger_id} className={`badge ${s.type === 'pickup' ? 'badge-b' : 'badge-exit'}`}>
+                        <span
+                            key={s.passenger_id}
+                            className={`badge ${s.type === 'pickup' ? 'badge-b' : 'badge-exit'}`}
+                            style={{ fontSize: `${badgeFontSize}px`, padding: floorHeight < 20 ? '0 2px' : '2px 5px' }}
+                        >
                             {s.passenger_id.replace(/_[AB]$/, '')}
                         </span>
                     ))}
@@ -33,8 +47,8 @@ export default function Building({ building, label }) {
     }
 
     // Use utility function for position calculation
-    const liftABottom = calculateLiftPosition(liftA.level || 0);
-    const liftBBottom = calculateLiftPosition(liftB.level || 0);
+    const liftABottom = calculateLiftPosition(liftA.level || 0, floorHeight);
+    const liftBBottom = calculateLiftPosition(liftB.level || 0, floorHeight);
 
     return (
         <div className="building">
@@ -44,12 +58,18 @@ export default function Building({ building, label }) {
             </div>
             <div className="building-body">
                 <div className="shaft">
-                    <div className="lift lift-a" style={{ bottom: `${liftABottom}px` }}>
+                    <div
+                        className="lift lift-a"
+                        style={{ bottom: `${liftABottom}px`, height: `${liftHeight}px` }}
+                    >
                         {liftA.passengers?.length || 0}
                     </div>
                 </div>
                 <div className="shaft">
-                    <div className="lift lift-b" style={{ bottom: `${liftBBottom}px` }}>
+                    <div
+                        className="lift lift-b"
+                        style={{ bottom: `${liftBBottom}px`, height: `${liftHeight}px` }}
+                    >
                         {liftB.passengers?.length || 0}
                     </div>
                 </div>

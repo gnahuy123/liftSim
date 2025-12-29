@@ -48,15 +48,15 @@ export default function Controls({
                     // 50% Ground -> Random, 50% Random -> Ground
                     if (Math.random() < 0.5) {
                         from = 0;
-                        to = Math.floor(Math.random() * maxFloors) + 1;
+                        to = Math.floor(Math.random() * numLevels) + 1;
                     } else {
-                        from = Math.floor(Math.random() * maxFloors) + 1;
+                        from = Math.floor(Math.random() * numLevels) + 1;
                         to = 0;
                     }
                 } else {
-                    from = Math.floor(Math.random() * (maxFloors + 1));
-                    to = Math.floor(Math.random() * (maxFloors + 1));
-                    if (to === from) to = (to + 1) % (maxFloors + 1);
+                    from = Math.floor(Math.random() * (numLevels + 1));
+                    to = Math.floor(Math.random() * (numLevels + 1));
+                    if (to === from) to = (to + 1) % (numLevels + 1);
                 }
 
                 const pid = generatePassengerId();
@@ -90,7 +90,7 @@ export default function Controls({
             if (autoModeRef.current) clearInterval(autoModeRef.current);
             if (autoMoveRef.current) clearInterval(autoMoveRef.current);
         };
-    }, [autoMode, speed, sessionId, addLog, onRefreshState, maxFloors, spawnRate, realisticMode]);
+    }, [autoMode, speed, sessionId, addLog, onRefreshState, numLevels, spawnRate, realisticMode]);
 
     const handleReconnect = () => {
         setAutoMode(false);
