@@ -1,13 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, Type
 
 
 class LiftAlgorithm(ABC):
     """Base class for lift scheduling algorithms."""
-    
+
     name: str = "base"
     description: str = "Base algorithm"
-    
+
     @abstractmethod
     def pick_next_direction(self, current_level: int, current_direction: str, stops: dict) -> str:
         """
@@ -25,15 +24,14 @@ class ScanAlgorithm(LiftAlgorithm):
     """
     name = "scan"
     description = "SCAN/LOOK - Continues in direction until no more requests"
-    
+
     def pick_next_direction(self, current_level: int, current_direction: str, stops: dict) -> str:
         if not stops:
             return "idle"
-        
+
         if current_direction == "idle":
             min_stop = min(stops.keys())
-            max_stop = max(stops.keys())
-            
+
             if current_level > min_stop:
                 return "down"
             else:
@@ -43,23 +41,23 @@ class ScanAlgorithm(LiftAlgorithm):
             if current_level >= max(stops.keys()):
                 return "down"
             return "up"
-            
+
         elif current_direction == "down":
             if current_level <= min(stops.keys()):
                 return "up"
             return "down"
-            
+
         return "idle"
 
 
 # Algorithm Registry - maps name to class
 # New algorithms can be added here
-ALGORITHM_REGISTRY: Dict[str, Type[LiftAlgorithm]] = {
+ALGORITHM_REGISTRY: dict[str, type[LiftAlgorithm]] = {
     "scan": ScanAlgorithm,
 }
 
 
-def get_available_algorithms() -> List[dict]:
+def get_available_algorithms() -> list[dict]:
     """Returns list of available algorithms with their metadata."""
     return [
         {

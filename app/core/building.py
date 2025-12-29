@@ -2,8 +2,8 @@
 Building Controller - Manages 2 lifts servicing the same building.
 Uses encapsulated accessors to follow Law of Demeter.
 """
-from app.core.lift import LiftController
 from app.core.config import DEFAULT_ALGORITHM
+from app.core.lift import LiftController
 
 
 class BuildingController:

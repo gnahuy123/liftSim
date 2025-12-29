@@ -2,7 +2,7 @@
 Lift Controller - manages a single lift's state and movement.
 """
 from app.core.algorithms import get_algorithm
-from app.core.config import MAX_FLOORS, MIN_FLOOR, DEFAULT_ALGORITHM
+from app.core.config import DEFAULT_ALGORITHM, MAX_FLOORS, MIN_FLOOR
 
 
 class LiftController:

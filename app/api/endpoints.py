@@ -4,7 +4,7 @@ API endpoints for lift simulation.
 from fastapi import APIRouter, HTTPException
 
 from app.core.algorithms import get_available_algorithms
-from app.core.config import MAX_FLOORS, MIN_FLOOR, DEFAULT_ALGORITHM
+from app.core.config import DEFAULT_ALGORITHM, MAX_FLOORS, MIN_FLOOR
 from app.core.sessions import session_manager
 from app.models.schemas import CreateComparisonRequest, CreateSessionRequest, PassengerRequest
 
@@ -30,7 +30,7 @@ async def list_algorithms() -> dict:
 @router.post("/create-session")
 async def create_session(request: CreateSessionRequest | None = None) -> dict:
     """Create a single-building session with 2 lifts."""
-    algorithm_name = request.algorithm if request else DEFAULT_ALGORITHM
+    algorithm_name = request.algorithm if request and request.algorithm else DEFAULT_ALGORITHM
     session_id = session_manager.create_session(algorithm_name=algorithm_name)
     return {"session_id": session_id, "algorithm": algorithm_name, "type": "single"}
 
@@ -38,8 +38,8 @@ async def create_session(request: CreateSessionRequest | None = None) -> dict:
 @router.post("/create-comparison")
 async def create_comparison(request: CreateComparisonRequest | None = None) -> dict:
     """Create a comparison session with 2 buildings, each with 2 lifts."""
-    algo1 = request.algorithm1 if request else DEFAULT_ALGORITHM
-    algo2 = request.algorithm2 if request else DEFAULT_ALGORITHM
+    algo1 = request.algorithm1 if request and request.algorithm1 else DEFAULT_ALGORITHM
+    algo2 = request.algorithm2 if request and request.algorithm2 else DEFAULT_ALGORITHM
     session_id = session_manager.create_comparison_session(algorithm1=algo1, algorithm2=algo2)
     return {
         "session_id": session_id,
@@ -86,7 +86,7 @@ async def get_state(session_id: str) -> dict:
         else:
             return {"type": "single", **transform_building_state(state)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get state: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Failed to get state: {e!s}") from e
 
 
 def transform_building_state(state: dict) -> dict:

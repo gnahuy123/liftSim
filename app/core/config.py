@@ -13,7 +13,7 @@ SESSION_TIMEOUT_MINUTES: int = 30
 
 # CORS configuration
 CORS_ORIGINS: list[str] = os.getenv(
-    "CORS_ORIGINS", 
+    "CORS_ORIGINS",
     "http://localhost:5173,http://localhost:8000"
 ).split(",")
 

@@ -1,5 +1,6 @@
+
 from pydantic import BaseModel
-from typing import Optional
+
 
 class PassengerRequest(BaseModel):
     passenger_id: str
@@ -7,11 +8,11 @@ class PassengerRequest(BaseModel):
     to_level: int
 
 class CreateSessionRequest(BaseModel):
-    algorithm: Optional[str] = "scan"
+    algorithm: str | None = "scan"
 
 class CreateComparisonRequest(BaseModel):
-    algorithm1: Optional[str] = "scan"
-    algorithm2: Optional[str] = "scan"
+    algorithm1: str | None = "scan"
+    algorithm2: str | None = "scan"
 
 class StopInfo(BaseModel):
     passenger_id: str
@@ -40,7 +41,7 @@ class LiftState(BaseModel):
     active_passengers: list[PassengerStatus]
     global_tick: int
     stats: LiftStats
-    algorithm: Optional[str] = None  # For comparison view
+    algorithm: str | None = None  # For comparison view
 
 class ComparisonState(BaseModel):
     lift1: LiftState
