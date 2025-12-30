@@ -176,3 +176,42 @@ input[type="range"] {
     background: #f8fafc;
     border-radius: 4px;
 }
+
+/* Reset Prompt Styling */
+.restart-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.settings-changed-warning {
+    font-size: 13px;
+    color: #dc2626;
+    background-color: #fef2f2;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #fee2e2;
+    text-align: center;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+    }
+}
+
+.btn-pulse {
+    animation: pulse 2s infinite;
+    border-color: #2563eb;
+    color: #2563eb;
+    font-weight: 500;
+}

@@ -98,10 +98,15 @@ export default function Controls({
         onReconnect(selectedAlgo1, selectedAlgo2, numLevels);
     };
 
+    const hasChanges = selectedAlgo1 !== algorithm1 ||
+        selectedAlgo2 !== algorithm2 ||
+        numLevels !== (config?.max_floors ?? 10);
+
     return (
         <div className="controls">
             <div className="settings-section">
                 <h3>Simulation Settings</h3>
+                {/* ... existing controls ... */}
 
                 <div className="control-group">
                     <label>Number of Levels: {numLevels}</label>
@@ -158,9 +163,20 @@ export default function Controls({
                 </select>
             </div>
 
-            <button className="btn btn-secondary" onClick={handleReconnect} disabled={!isConnected}>
-                Restart Simulation
-            </button>
+            <div className="restart-section">
+                {hasChanges && (
+                    <div className="settings-changed-warning">
+                        Settings changed - click Restart to apply
+                    </div>
+                )}
+                <button
+                    className={`btn btn-secondary ${hasChanges ? 'btn-pulse' : ''}`}
+                    onClick={handleReconnect}
+                    disabled={!isConnected}
+                >
+                    Restart Simulation
+                </button>
+            </div>
 
             <hr />
 

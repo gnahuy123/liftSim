@@ -54,6 +54,9 @@ function App() {
             ))}
           </div>
         </footer>
+        <footer className="footer-credits">
+          Built by <a href="https://gnahuy123.github.io/" target="_blank" rel="noopener noreferrer">gnahuy123</a>
+        </footer>
       </div>
     </SimulationContext.Provider>
   );
