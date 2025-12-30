@@ -35,13 +35,7 @@ htmlcov/
 .pre-commit-config.yaml
 requirements-dev.txt
 
-# Frontend source (we use build output)
-frontend-react/src/
-frontend-react/public/
-frontend-react/*.json
-frontend-react/*.js
-frontend-react/*.ts
-frontend-react/.env*
+
 
 # Old frontend
 frontend/
