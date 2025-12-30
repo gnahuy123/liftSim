@@ -62,6 +62,9 @@ export function useLiftSimulation() {
             sessionIdRef.current = data.session_id;
             setAlgorithm1(algo1);
             setAlgorithm2(algo2);
+            if (data.max_floors) {
+                setConfig(prev => ({ ...prev, max_floors: data.max_floors }));
+            }
             addLog(`Session created: ${data.session_id}`);
 
             wsRef.current = createWebSocket(

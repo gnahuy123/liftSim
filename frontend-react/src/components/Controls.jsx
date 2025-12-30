@@ -28,6 +28,13 @@ export default function Controls({
     const autoModeRef = useRef(null);
     const autoMoveRef = useRef(null);
 
+    // Sync local settings with props when simulation restarts/updates
+    useEffect(() => {
+        setSelectedAlgo1(algorithm1);
+        setSelectedAlgo2(algorithm2);
+        setNumLevels(config?.max_floors ?? 10);
+    }, [algorithm1, algorithm2, config?.max_floors]);
+
 
     const generatePassengerId = () => {
         const id = 'P' + String(passengerNumRef.current).padStart(3, '0');
