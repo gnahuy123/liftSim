@@ -48,7 +48,8 @@ export async function moveLift(sessionId) {
 }
 
 export function createWebSocket(sessionId, onMessage, onOpen, onClose, onError) {
-    const wsUrl = API_URL.replace(/^http/, 'ws') || `ws://${window.location.host}`;
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = API_URL.replace(/^http/, 'ws') || `${protocol}//${window.location.host}`;
     const ws = new WebSocket(`${wsUrl}/ws/${sessionId}`);
     ws.onmessage = (event) => onMessage(JSON.parse(event.data));
     ws.onopen = onOpen;
