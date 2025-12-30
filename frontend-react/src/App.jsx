@@ -29,6 +29,7 @@ function App() {
           <Building building={building1} label="Building 1" />
 
           <Controls
+            key={simulation.sessionId}
             sessionId={simulation.sessionId}
             isConnected={simulation.isConnected}
             algorithms={simulation.algorithms}
