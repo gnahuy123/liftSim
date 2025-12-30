@@ -2,6 +2,7 @@ import { useLiftSimulation } from './useLiftSimulation';
 import { SimulationContext } from './SimulationContext';
 import Building from './components/Building';
 import Controls from './components/Controls';
+import DesktopMessage from './components/DesktopMessage';
 import './App.css';
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
         <footer className="footer-credits">
           Built by <a href="https://gnahuy123.github.io/" target="_blank" rel="noopener noreferrer">gnahuy123</a>
         </footer>
+        <DesktopMessage />
       </div>
     </SimulationContext.Provider>
   );

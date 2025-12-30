@@ -121,3 +121,18 @@ body {
   color: #1d4ed8;
   text-decoration: underline;
 }
+
+/* Mobile Blocker Integration */
+@media (max-width: 1023px) {
+
+  .header,
+  .main,
+  .log,
+  .footer-credits {
+    display: none !important;
+  }
+
+  .app {
+    padding: 0;
+  }
+}
